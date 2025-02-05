@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Validation\Rules\Phone;
@@ -18,7 +19,7 @@ class ClientController extends Controller
     {
         return Inertia::render('Clients/Index', [
             'clients' => Client::where('user_id', auth()->id())
-                              ->select('id', 'firstName', 'lastName', 'email', 'phone')
+                              ->select('id', 'user_id', 'firstName', 'lastName', 'email', 'phone', 'created_at')
                               ->latest()
                               ->get(),
         ]);
@@ -69,9 +70,20 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request, Client $client): RedirectResponse
     {
-        //
+        Gate::authorize('update', $client);
+ 
+        $validated = $request->validate([
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|phone:US,mobile',
+        ]);
+ 
+        $client->update($validated);
+ 
+        return redirect(route('clients.index'));
     }
 
     /**
