@@ -19,10 +19,17 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'firstName',
+        'lastName',
         'email',
         'password',
+        'is_admin',
     ];
+
+    public function getNameAttribute()
+    {
+        return "{$this->firstName} {$this->lastName}";
+    }
 
     /**
      * The attributes that should be hidden for serialization.
