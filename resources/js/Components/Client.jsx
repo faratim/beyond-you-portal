@@ -8,7 +8,7 @@ import { useForm, usePage } from "@inertiajs/react";
 
 dayjs.extend(relativeTime);
 
-export default function Chirp({ client }) {
+export default function Client({ client }) {
     const { auth } = usePage().props;
     const [editing, setEditing] = useState(false);
 
@@ -79,6 +79,13 @@ export default function Chirp({ client }) {
                                 >
                                     Edit
                                 </button>
+                                <Dropdown.Link
+                                    as="button"
+                                    href={route("clients.destroy", client.id)}
+                                    method="delete"
+                                >
+                                    Delete
+                                </Dropdown.Link>
                             </Dropdown.Content>
                         </Dropdown>
                     )}

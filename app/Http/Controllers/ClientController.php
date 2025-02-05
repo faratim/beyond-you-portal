@@ -89,8 +89,12 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Client $client)
+    public function destroy(Client $client): RedirectResponse
     {
-        //
+        Gate::authorize('delete', $client);
+
+        $client->delete();
+
+        return redirect(route('clients.index'));
     }
 }
