@@ -18,7 +18,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('is_coach')->default(true);
+            $table->boolean('is_network_partner')->default(true);
             $table->boolean('is_admin')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

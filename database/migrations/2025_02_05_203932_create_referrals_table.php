@@ -16,6 +16,11 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('referred_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_converted')->default(false);
+            $table->dateTime('converted_at')->nullable();
+            $table->boolean('is_paid')->default(false);
+            $table->dateTime('paid_at')->nullable();
             $table->timestamps();
         });
     }
