@@ -29,6 +29,10 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'is_coach' => true,
+            'is_network_partner' => true,
+            'is_admin' => false,
+            'is_active' => true,
             'remember_token' => Str::random(10),
         ];
     }
@@ -40,6 +44,46 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Mark the user as an admin.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_admin' => true,
+        ]);
+    }
+
+    /**
+     * Mark the user as inactive.
+     */
+    public function inactive(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_active' => false,
+        ]);
+    }
+
+    /**
+     * Mark the user as not a coach.
+     */
+    public function notCoach(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_coach' => false,
+        ]);
+    }
+
+    /**
+     * Mark the user as not a network partner.
+     */
+    public function notNetworkPartner(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_network_partner' => false,
         ]);
     }
 }
