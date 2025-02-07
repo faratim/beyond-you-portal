@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Validation\Rules\Phone;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -16,12 +17,17 @@ class ClientController extends Controller
      * Display a listing of the resource.
      */
     public function index(): Response
-    {
+        {
         return Inertia::render('Clients/Index', [
-            'clients' => Client::where('user_id', auth()->id())
-                              ->select('id', 'user_id', 'firstName', 'lastName', 'email', 'phone', 'created_at')
-                              ->latest()
-                              ->get(),
+            'clients' => Client::where('user_id', Auth::id())
+                ->select('id', 'user_id', 'firstName', 'lastName', 'email', 'phone', 'created_at')
+                ->with(['notes' => function($query) {
+                    $query->select('id', 'client_id', 'title', 'note', 'created_at')
+                        ->where('status', 'active')
+                        ->latest();
+                }])
+                ->latest()
+                ->get(),
         ]);
     }
 
@@ -41,12 +47,30 @@ class ClientController extends Controller
         $validated = $request->validate([
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
-            'email' => 'nullable|email',
-            'phone' => 'nullable|phone:US,mobile',
-            // 'note' => 'nullable|string',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:255',
+            'note' => 'nullable|string',
+            'noteTitle' => 'nullable|string|max:255',
         ]);
-
-        $request->user()->clients()->create($validated);
+    
+        // Add user_id to the validated data
+        $clientData = array_merge($validated, [
+            'user_id' => Auth::id()
+        ]);
+    
+        // Remove note from client creation data
+        unset($clientData['note']);
+    
+        $client = Client::create($clientData);
+    
+        // Create note if provided
+        if (!empty($validated['note'])) {
+            $client->notes()->create([
+                'user_id' => Auth::id(),
+                'title' => $validated['noteTitle'],
+                'note' => $validated['note']
+            ]);
+        }
 
         return redirect()->route('clients.index');
     }

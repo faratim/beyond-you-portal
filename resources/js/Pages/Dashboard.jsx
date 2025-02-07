@@ -1,4 +1,3 @@
-import NavLink from '@/Components/NavLink';
 import SecondaryButton from '@/Components/SecondaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
@@ -15,25 +14,30 @@ export default function Dashboard() {
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            {/* Greeting */}
             <div className="mt-6 p-6 px-5 text-gray-900">Hello, {auth.user.firstName}!</div>
-            <Link href="/clients">
-              <SecondaryButton>Manage Your Clients</SecondaryButton>
-            </Link>
-            <Link
-              href={route('referral.create')}
-              className={
-                'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none'
-              }
-            >
-              Refer a Client to a Coach
-            </Link>
-            <Link
-              className={
-                'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none'
-              }
-            >
-              See Your Referrals
-            </Link>
+
+            {/* Buttons Container */}
+            <div className="flex flex-col items-center gap-4 p-6 sm:flex-row sm:justify-center">
+              {/* Using a consistent width wrapper for each button */}
+              <Link href="/clients" className="w-full sm:w-56">
+                <SecondaryButton className="w-full whitespace-nowrap">
+                  Manage Your Clients
+                </SecondaryButton>
+              </Link>
+
+              <Link href="/clients" className="w-full sm:w-56">
+                <SecondaryButton className="w-full whitespace-nowrap">
+                  Manage Your Referrals
+                </SecondaryButton>
+              </Link>
+
+              <Link href="/clients" className="w-full sm:w-56">
+                <SecondaryButton className="w-full whitespace-nowrap">
+                  Check Your Payments
+                </SecondaryButton>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
