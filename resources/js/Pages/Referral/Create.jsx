@@ -3,7 +3,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { useForm, Head } from "@inertiajs/react";
-import PhoneInput from "@/Components/PhoneInput";
 
 export default function Create({ auth, coaches, clients }) {
     const { data, setData, post, processing, reset, errors } = useForm({
@@ -19,7 +18,7 @@ export default function Create({ auth, coaches, clients }) {
 
     return (
         <AuthenticatedLayout>
-            <Head title="Refer" />
+            <Head title="Referral" />
 
             <div className="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
                 <h1>Refer a Client</h1>

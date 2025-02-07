@@ -6,7 +6,7 @@ use App\Models\Referral;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Inertia\RedirectResponse;
+use Illuminate\Http\RedirectResponse;
 use App\Models\User;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
@@ -59,7 +59,7 @@ class ReferralController extends Controller
             'client_id' => $validated['client_id'],
         ]);
     
-        return redirect(route('refer.index'));
+        return redirect(route('referral.index'));
     }
 
     /**

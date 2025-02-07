@@ -36,6 +36,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Clients
                                 </NavLink>
+                                <NavLink
+                                    href={route("referral.index")}
+                                    active={route().current("referral.index")}
+                                >
+                                    Referrals
+                                </NavLink>
                             </div>
                         </div>
 
